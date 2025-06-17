@@ -1,0 +1,13 @@
+openapi: 3.0.0
+info:
+  title: Sample API
+  version: 1.0.0
+paths:
+  /hello:
+    get:
+      operationId: getHello
+      parameters:
+        - name: name
+          in: query
+          schema:
+            type: string

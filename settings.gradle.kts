@@ -53,6 +53,10 @@ val enableINIFrontend: Boolean by extra {
     val enableINIFrontend: String? by settings
     enableINIFrontend.toBoolean()
 }
+val enableOpenAPIFrontend: Boolean by extra {
+    val enableOpenAPIFrontend: String? by settings
+    enableOpenAPIFrontend.toBoolean()
+}
 
 if (enableJavaFrontend) include(":cpg-language-java")
 if (enableCXXFrontend) include(":cpg-language-cxx")
@@ -63,6 +67,7 @@ if (enableTypeScriptFrontend) include(":cpg-language-typescript")
 if (enableRubyFrontend) include(":cpg-language-ruby")
 if (enableJVMFrontend) include(":cpg-language-jvm")
 if (enableINIFrontend) include(":cpg-language-ini")
+if (enableOpenAPIFrontend) include(":cpg-language-openapi")
 
 kover {
     enableCoverage()

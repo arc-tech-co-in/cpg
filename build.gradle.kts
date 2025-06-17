@@ -139,3 +139,9 @@ val enableINIFrontend: Boolean by extra {
     enableINIFrontend.toBoolean()
 }
 project.logger.lifecycle("INI frontend is ${if (enableINIFrontend) "enabled" else "disabled"}")
+
+val enableOpenAPIFrontend: Boolean by extra {
+    val enableOpenAPIFrontend: String? by project
+    enableOpenAPIFrontend.toBoolean()
+}
+project.logger.lifecycle("OpenAPI frontend is ${if (enableOpenAPIFrontend) "enabled" else "disabled"}")
