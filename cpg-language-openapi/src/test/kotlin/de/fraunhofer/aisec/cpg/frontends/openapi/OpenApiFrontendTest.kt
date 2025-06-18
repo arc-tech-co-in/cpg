@@ -74,4 +74,21 @@ class OpenApiFrontendTest : BaseTest() {
         assertNotNull(field)
         assertEquals("integer", field.type.name.toString())
     }
+
+    @Test
+    fun testOfficialPetstoreSpec() {
+        val topLevel = Path.of("src", "test", "resources")
+        val tu =
+            analyzeAndGetFirstTU(
+                listOf(topLevel.resolve("petstore-official.json").toFile()),
+                topLevel,
+                true,
+            ) {
+                it.registerLanguage<OpenApiLanguage>()
+            }
+        assertIs<TranslationUnitDeclaration>(tu)
+        val record = tu.records["/pet"]
+        assertIs<RecordDeclaration>(record)
+        assertNotNull(record.methods["addPet"])
+    }
 }
