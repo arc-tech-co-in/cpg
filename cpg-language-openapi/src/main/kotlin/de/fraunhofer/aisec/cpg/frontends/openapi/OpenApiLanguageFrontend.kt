@@ -8,12 +8,13 @@ import de.fraunhofer.aisec.cpg.graph.*
 import de.fraunhofer.aisec.cpg.graph.declarations.FieldDeclaration
 import de.fraunhofer.aisec.cpg.graph.declarations.RecordDeclaration
 import de.fraunhofer.aisec.cpg.graph.declarations.TranslationUnitDeclaration
-import de.fraunhofer.aisec.cpg.graph.types.Type
-import de.fraunhofer.aisec.cpg.graph.types.UnknownType
+import de.fraunhofer.aisec.cpg.graph.types.*
 import de.fraunhofer.aisec.cpg.sarif.PhysicalLocation
 import java.io.File
 import io.swagger.v3.parser.OpenAPIV3Parser
 import io.swagger.v3.parser.core.models.ParseOptions
+import io.swagger.v3.oas.models.media.Schema
+import io.swagger.v3.oas.models.parameters.Parameter
 
 /**
  * A minimal frontend parsing OpenAPI specifications. Endpoints are modeled as
@@ -40,6 +41,7 @@ class OpenApiLanguageFrontend(ctx: TranslationContext, language: Language<OpenAp
                 val methodDecl = newMethodDeclaration(op.operationId ?: method.name.lowercase(), rawNode = op)
                 op.parameters?.forEach { param ->
                     val field = newFieldDeclaration(name = param.name, rawNode = param)
+                    param.schema?.let { field.type = typeOf(it) }
                     record.addField(field)
                 }
                 record.addMethod(methodDecl)
@@ -52,7 +54,17 @@ class OpenApiLanguageFrontend(ctx: TranslationContext, language: Language<OpenAp
     }
 
     override fun typeOf(type: Any?): Type {
-        return UnknownType.getUnknownType(language)
+        return when (type) {
+            is Schema<*> -> {
+                val t = type.type ?: return UnknownType.getUnknownType(language)
+                language.builtInTypes[t] ?: UnknownType.getUnknownType(language)
+            }
+            is Parameter -> {
+                type.schema?.let { return typeOf(it) }
+                UnknownType.getUnknownType(language)
+            }
+            else -> UnknownType.getUnknownType(language)
+        }
     }
 
     override fun codeOf(astNode: Any): String? {

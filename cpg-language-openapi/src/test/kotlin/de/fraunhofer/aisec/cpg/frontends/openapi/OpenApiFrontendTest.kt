@@ -24,4 +24,20 @@ class OpenApiFrontendTest : BaseTest() {
         assertNotNull(record.methods["getHello"])
         assertEquals(1, record.fields.size)
     }
+
+    @Test
+    fun testPetstoreSpec() {
+        val topLevel = Path.of("src", "test", "resources")
+        val tu = analyzeAndGetFirstTU(listOf(topLevel.resolve("petstore.yaml").toFile()), topLevel, true) {
+            it.registerLanguage<OpenApiLanguage>()
+        }
+        assertIs<TranslationUnitDeclaration>(tu)
+        val record = tu.records["/pets"]
+        assertIs<RecordDeclaration>(record)
+        val method = record.methods["listPets"]
+        assertNotNull(method)
+        val field = record.fields["limit"]
+        assertNotNull(field)
+        assertEquals("integer", field.type.name.toString())
+    }
 }
