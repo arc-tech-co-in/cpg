@@ -141,6 +141,7 @@ The current state of languages is:
 | LLVM                     | cpg-language-llvm                     | [main](https://github.com/Fraunhofer-AISEC/cpg)                         | `incubating`   |
 | TypeScript/JavaScript    | cpg-language-typescript               | [main](https://github.com/Fraunhofer-AISEC/cpg)                         | `experimental` |
 | Ruby                     | cpg-language-ruby                     | [main](https://github.com/Fraunhofer-AISEC/cpg)                         | `experimental` |
+| OpenAPI                  | cpg-language-openapi                  | [main](https://github.com/Fraunhofer-AISEC/cpg)                         | `experimental` |
 | {OpenQASM,Python-Qiskit} | cpg-language-{openqasm,python-qiskit} | [quantum-cpg](https://github.com/Fraunhofer-AISEC/cpg/tree/quantum-cpg) | `experimental` |
 
 ### Languages and Configuration

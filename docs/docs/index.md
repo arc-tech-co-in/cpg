@@ -43,6 +43,7 @@ programming language.
   * TypeScript
   * LLVM-IR
   * Ruby
+  * OpenAPI
 
   Nothing suitable found? [Write your own language frontend](./CPG/impl/language.md)
   for the respective language.
